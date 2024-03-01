@@ -10,9 +10,15 @@ public class PlayerMove : MonoBehaviour
     AudioSource audioSource;
 
     //변수
+    public float speed;
     public float maxSpeed;
+    public float minSpeed;
     public float jumpPower;
     public float jumpTimingCorrection;
+    float horizontal_force = 0;
+    bool isOnPlatform = false;
+    bool canCorrectedJump = false;
+    bool isCorrectedJumpReserved = false; // 점프 보정시 여러 번 점프되는거 방지
 
     public AudioClip walkingSound1;
     public AudioClip walkingSound2;
@@ -34,26 +40,24 @@ public class PlayerMove : MonoBehaviour
 
     //함수
 
-    void Jump() /*점프*/
-    {   
-        if (!animator.GetBool("isJumping"))
-        {
-            rigid.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
-            animator.SetBool("isJumping", true);
-            PlayRandomJumpSound();
-        }
-    }
-
-    void CorrectedJump() /*점프키 빨리 누르면 점프 씹히는거 보정된 점프*/
+    IEnumerator Jump() //점프, 보정있음
     {
-        if (animator.GetBool("isJumping"))
+        while (true) 
         {
-            Invoke("Jump", jumpTimingCorrection);
+            if (!animator.GetBool("isJumping") && isOnPlatform)
+            {
+                rigid.velocity = new Vector2(rigid.velocity.x, 0);
+                rigid.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
+                animator.SetBool("isJumping", true);
+                isCorrectedJumpReserved = false;
+                PlayRandomJumpSound();
+                yield break;
+            }
+            yield return new WaitForSeconds(0.02f);
+
         }
-        else
-        {
-            Jump();
-        }
+    
+    
     }
     
     void PlayRandomJumpSound() /*랜덤 점프 사운드 재생*/
@@ -72,12 +76,49 @@ public class PlayerMove : MonoBehaviour
     }
 
 
+    bool ReturnTrueIfIntNot0(int Int) 
+    {
+        if (Int == 0)
+        {
+            return false;
+        }
+        else 
+        {
+            return true;
+        }
+
+    }
+
+    void ChangeSpriteHorizontalDirection() //좌우 이동에 따른 스프라이트 방향 전환
+    {
+        if (!animator.GetBool("isAttacking"))
+        {
+            switch (horizontal_force)
+            {
+                case 1:
+                    spriteRenderer.flipX = false;
+                    break;
+                case -1:
+                    spriteRenderer.flipX = true;
+                    break;
+            }
+        }
+
+    }
+
+    void CheckIfConductCorrectedJump() // 보정된 점프
+    {
+        if (Input.GetButtonDown("Jump") && canCorrectedJump && !isCorrectedJumpReserved)
+        {
+            isCorrectedJumpReserved = true;
+            StartCoroutine(Jump());
+
+        }
+
+    }
 
 
-
-    
-
-    //게임
+    //================게임===================================================================================
 
     void Awake()
     {
@@ -89,11 +130,7 @@ public class PlayerMove : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetButtonDown("Jump")) // 점프
-        {
-            CorrectedJump();
-           
-        }
+        CheckIfConductCorrectedJump(); // 보정된 점프
 
         if (Input.GetButtonUp("Horizontal"))//좌우 키 떼면 멈춤
         { 
@@ -105,16 +142,9 @@ public class PlayerMove : MonoBehaviour
             rigid.velocity = new Vector2(0, rigid.velocity.y);
         }
 
-        if (Input.GetAxisRaw("Horizontal") == 1 && !animator.GetBool("isAttacking"))//좌우 이동에 따른 스프라이트 방향 전환
-        {
-            spriteRenderer.flipX = false;
-        }
-        else if (Input.GetAxisRaw("Horizontal") == -1 && !animator.GetBool("isAttacking"))
-        {
-            spriteRenderer.flipX = true;
-        }
+        ChangeSpriteHorizontalDirection(); //좌우 이동에 따른 스프라이트 방향 전환
 
-        if (Mathf.Abs(rigid.velocity.x ) < 0.1f) //idle -> run 애니메이션 전환
+        if (Mathf.Abs(rigid.velocity.x ) < 0.1f && horizontal_force == 0) //idle -> run 애니메이션 전환
         {
             animator.SetBool("isWalking", false);
         }
@@ -127,8 +157,8 @@ public class PlayerMove : MonoBehaviour
     void FixedUpdate()
     {
         //좌우 움직임
-        float horizontal_force = Input.GetAxisRaw("Horizontal");
-        rigid.AddForce(Vector2.right * horizontal_force, ForceMode2D.Impulse);
+        horizontal_force = Input.GetAxisRaw("Horizontal");
+        rigid.AddForce(Vector2.right * horizontal_force * speed, ForceMode2D.Impulse);
 
 
         //최대 좌우 속도 제한
@@ -141,38 +171,53 @@ public class PlayerMove : MonoBehaviour
             rigid.velocity = new Vector2(maxSpeed * (-1), rigid.velocity.y);
         }
 
-        //레이캐스팅으로 플랫폼 감지해서 뛰는 소리 재생
-        RaycastHit2D rayHitGr = Physics2D.Raycast(new Vector2(rigid.position.x, rigid.position.y - 0.1f), new Vector2(0, -3f), 1, LayerMask.GetMask("platform"));
-        if (rayHitGr.collider != null && rayHitGr.distance < 1f && animator.GetBool("isWalking") && !audioSource.isPlaying)
+
+        //레이캐스팅으로 플랫폼 감지해서 isOnPlatform, canCorrectedJump 갱신
+        RaycastHit2D[] rayHitGrs = new RaycastHit2D[3];
+        int canCorrectedJumpCount = 0;
+        int isOnPlatformCount = 0;
+        for (int i = -1; i < 2; i++) 
+        {
+            Debug.DrawRay(new Vector2(rigid.position.x +0.55f*i, rigid.position.y - 0.1f), new Vector2(0, -4f), Color.green); // scene에서 ray를 볼 수 있게 해줌, 없어도 되긴 됨
+            rayHitGrs[i+1] = Physics2D.Raycast(new Vector2(rigid.position.x + 0.55f * i, rigid.position.y - 0.1f), new Vector2(0, -1f), 4, LayerMask.GetMask("platform"));
+            if (rayHitGrs[i+1].collider != null)
+            {
+                if (rayHitGrs[i + 1].distance < (1.1f + jumpTimingCorrection)) 
+                {
+                    canCorrectedJumpCount++;
+                }
+                if (rayHitGrs[i + 1].distance < (1.1f))
+                {
+                    isOnPlatformCount++;
+                }
+            }
+
+        }
+        canCorrectedJump = ReturnTrueIfIntNot0(canCorrectedJumpCount);
+        isOnPlatform = ReturnTrueIfIntNot0(isOnPlatformCount);
+
+
+        //뛰는 소리 재생
+        if (animator.GetBool("isWalking") && !audioSource.isPlaying && isOnPlatform)
         {
             PlayRandomWalkingSound();
         }
 
 
-        //레이캐스팅으로 점프 후 착지 감지
-        if (rigid.velocity.y <= 0.01f)
+        //점프 후 착지 감지해서 점프 모션 해제
+        if (isOnPlatform && rigid.velocity.y <= 0.01f) 
         {
-            RaycastHit2D[] raycastHit2Ds = new RaycastHit2D[3];
-            for (int i = 0; i < 3; i++)
-            {
-                Debug.DrawRay(new Vector2(rigid.position.x + (i - 1) * 0.75f, rigid.position.y - 0.1f), new Vector2(0, -2f), new Color(0, 2f, 0));
-                raycastHit2Ds[i] = Physics2D.Raycast(new Vector2(rigid.position.x + (i - 1) * 0.75f, rigid.position.y - 0.1f), new Vector2(0, -3f), 1, LayerMask.GetMask("platform"));
-                if (raycastHit2Ds[i].collider != null && raycastHit2Ds[i].distance < 1f)
-                {
-                    animator.SetBool("isJumping", false);
-                }
-            }
+            animator.SetBool("isJumping", false);
 
         }
 
-        //가만히 냅뒤도 움직이는 버그 수정
 
-        if (rigid.velocity.x < 0.005f && rigid.velocity.x > -0.005f && horizontal_force == 0)
+        //가만히 냅뒤도 움직이는 버그, 미끄러지는거 수정
+
+        if (rigid.velocity.x < minSpeed && rigid.velocity.x > -minSpeed && horizontal_force == 0)
         {
             rigid.velocity = new Vector2(0, rigid.velocity.y);
         }
 
-        // ghost vertics 현상 (타일 끝에 걸리는 현상) 수정
-        rigid.AddForce(Vector2.up * 0.01f, ForceMode2D.Impulse);
     }
 }

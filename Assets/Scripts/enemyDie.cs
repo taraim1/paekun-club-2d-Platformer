@@ -102,7 +102,7 @@ public class enemyDie : MonoBehaviour
             gameObject.layer = 9; // 플레이어와 충돌 안 하는 레이어
 
             EnemyCountDecrease();
-            Invoke("DestroyThis", 1f);
+            Invoke("DestroyThis", 0.8f);
             
 
 
