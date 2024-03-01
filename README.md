@@ -1,4 +1,4 @@
-## peakun-club-2d-Platformer
+## paekun-club-2d-Platformer
 
 #### 소개
 
