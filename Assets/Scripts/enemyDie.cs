@@ -5,7 +5,6 @@ using UnityEngine;
 public class enemyDie : MonoBehaviour
 {
     public bool isThisDetected = false;
-
     public GameObject player;
 
     LineRenderer lineRenderer;
@@ -58,11 +57,13 @@ public class enemyDie : MonoBehaviour
         player.GetComponent<EnemySpawn>().enemyCount--;
 
     }
+   
 
     private void Start()
     {
         lineRenderer = GetComponent<LineRenderer>();
         animator = GetComponent<Animator>();
+        player = GameObject.FindGameObjectWithTag("Player");
         lineRenderer.startWidth = 4f;
         lineRenderer.endWidth = 4f;
         lineRenderer.positionCount = 2;
