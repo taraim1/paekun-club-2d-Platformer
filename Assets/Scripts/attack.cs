@@ -8,24 +8,25 @@ public class Attack : MonoBehaviour
     public float detectLength;
     public float enemyDetectionCorrection;
     public GameObject cursor;
+    public GameObject attackSoundPlayer;
     public int detectedEnemyId;
     int detectingRayNumber = 7;
-    public bool isAttacking = false;
-    public bool isAttackSound = false;
+    public bool isAttacking = false; // 이거 EnemyDie에서 참조중
+    public bool AttackSoundPlay = false; // 이거 EnemyDie에서 참조중
     RaycastHit2D[] enemyHits = new RaycastHit2D[7];
     List<int> detectedEnemiesIDs = new List<int>();
     List<Vector3> detectedEnemiesPoses = new List<Vector3>();
-
+     /*
     public AudioClip attackSound1;
     public AudioClip attackSound2;
     public AudioClip attackSound3;
     public AudioClip attackSound4;
     public AudioClip attackSound5;
-
+     */
     Rigidbody2D rigid;
     LineRenderer lineRenderer;
     Animator animator;
-    AudioSource audioSource;
+    //AudioSource audioSource;
 
     void AddIntToListIfNotExist(List<int> list,int Int) 
     {
@@ -109,14 +110,15 @@ public class Attack : MonoBehaviour
         animator.SetBool("isAttacking", false);
     }
 
-    void PlayRandomAttackSound() /*랜덤 공격 사운드 재생*/
+    /*
+    void PlayRandomAttackSound()
     {
         audioSource.Stop();
         AudioClip[] attackSounds = new AudioClip[5] { attackSound1, attackSound2, attackSound3, attackSound4, attackSound5 };
         audioSource.clip = attackSounds[Random.Range(0, 5)];
         audioSource.Play();
     }
-
+    */
     void DetectEnemy(Vector2 cursorPosition) 
     {
 
@@ -161,7 +163,7 @@ public class Attack : MonoBehaviour
         lineRenderer.positionCount = 2;
         lineRenderer.enabled = false;
         animator = GetComponent<Animator>();
-        audioSource = GetComponent<AudioSource>();
+        
 
     }
 
@@ -186,10 +188,10 @@ public class Attack : MonoBehaviour
         if (isAttacking) // isattacking이면 0.3초 뒤에 공격 에니메이션 꺼짐
         {   
             animator.SetBool("isAttacking", true);
-            if (isAttackSound) 
+            if (AttackSoundPlay) 
             {
-                PlayRandomAttackSound();
-                isAttackSound = false;
+                attackSoundPlayer.GetComponent<AttackSoundPlayer>().PlayRandomAttackSound();
+                AttackSoundPlay = false;
             }
 
             Invoke("StopAttackAnimation",0.3f);
