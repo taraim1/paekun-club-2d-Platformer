@@ -24,7 +24,6 @@ public class EnemySpawn : MonoBehaviour
         {
             GameObject clone = Instantiate(enemy, enemySetting[checkPointNumber][startIndex + i], Quaternion.identity);
             clone.tag = "Untagged";
-            clone.SetActive(true);
             enemyCount++;
         }
     }

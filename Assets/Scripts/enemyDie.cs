@@ -95,7 +95,7 @@ public class enemyDie : MonoBehaviour
 
 
             player.transform.position = new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z);
-            player.GetComponent<Attack>().isAttacking = true;  // 플레이어 attack 스크립트 변수 조정 -> 공격 애니메이션이랑 소리 나오게
+            player.GetComponent<Attack>().AttackAnimationPlay = true;  // 플레이어 attack 스크립트 변수 조정 -> 공격 애니메이션이랑 소리 나오게
             player.GetComponent<Attack>().AttackSoundPlay = true;  
             StartCoroutine(FadeOutLinerenderer());
 

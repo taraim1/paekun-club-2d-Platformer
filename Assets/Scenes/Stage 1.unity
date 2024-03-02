@@ -434,10 +434,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   detectLength: 11
   enemyDetectionCorrection: 17.5
+  AttackDuration: 0.4
   cursor: {fileID: 343629651}
   attackSoundPlayer: {fileID: 1193312547}
   detectedEnemyId: 0
-  isAttacking: 0
+  AttackAnimationPlay: 0
   AttackSoundPlay: 0
 --- !u!120 &111222137
 LineRenderer:
@@ -83825,7 +83826,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 0.23
+  m_Volume: 0.6
   m_Pitch: 1
   Loop: 0
   Mute: 0
