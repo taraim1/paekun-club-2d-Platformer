@@ -212,12 +212,9 @@ public class PlayerMove : MonoBehaviour
         }
 
 
-        //가만히 냅뒤도 움직이는 버그, 미끄러지는거 수정
-
-        if (rigid.velocity.x < minSpeed && rigid.velocity.x > -minSpeed && horizontal_force == 0)
+        if (isOnPlatform && horizontal_force == 0) // 미끄러지는거 없애기
         {
             rigid.velocity = new Vector2(0, rigid.velocity.y);
         }
-
     }
 }

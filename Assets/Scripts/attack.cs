@@ -99,10 +99,6 @@ public class Attack : MonoBehaviour
 
     }
 
-    void StopAttackAnimation() 
-    {
-        animator.SetBool("isAttacking", false);
-    }
 
     void MakeAttackAnimationNotLoop()
     {

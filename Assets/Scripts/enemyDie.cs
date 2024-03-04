@@ -93,13 +93,16 @@ public class enemyDie : MonoBehaviour
             lineRenderer.SetPosition(0, new Vector3(player.transform.position.x, player.transform.position.y, 1));
             lineRenderer.enabled = true;
 
+            // 공격 방향대로 가속도 받게 함
+            player.GetComponent<Rigidbody2D>().AddForce(new Vector3(transform.position.x - player.transform.position.x, transform.position.y - player.transform.position.y, player.transform.position.z) * 2.4f, ForceMode2D.Impulse); 
 
             player.transform.position = new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z);
             player.GetComponent<Attack>().AttackAnimationPlay = true;  // 플레이어 attack 스크립트 변수 조정 -> 공격 애니메이션이랑 소리 나오게
             player.GetComponent<Attack>().AttackSoundPlay = true;  
             StartCoroutine(FadeOutLinerenderer());
 
-            gameObject.layer = 9; // 플레이어와 충돌 안 하는 레이어
+            gameObject.layer = 9; // 플레이어와 충돌 안 하는 레이어로 바꾸기
+            
 
             EnemyCountDecrease();
             Invoke("DestroyThis", 0.8f);
@@ -108,7 +111,7 @@ public class enemyDie : MonoBehaviour
 
         }
 
-        if (player.GetComponent<PlayerDeath>().killAllEnemiesTrigger && gameObject.tag == "Untagged") //PlayerDeath클래스에서 killAllEnemies이고 prefab이 아니면 파괴
+        if (player.GetComponent<PlayerDeath>().killAllEnemiesTrigger && gameObject.tag == "Untagged") //PlayerDeath클래스에서 killAllEnemies이고 prefab이 아니면 전부 파괴
         {
             EnemyCountDecrease();
             DestroyThis();
