@@ -52,11 +52,6 @@ public class enemyDie : MonoBehaviour
         Destroy(gameObject);
     
     }
-    void EnemyCountDecrease() // EnemySpawn클래스의 적 카운트 줄이기
-    {
-        player.GetComponent<EnemySpawn>().enemyCount--;
-
-    }
    
 
     private void Start()
@@ -104,7 +99,6 @@ public class enemyDie : MonoBehaviour
             gameObject.layer = 9; // 플레이어와 충돌 안 하는 레이어로 바꾸기
             
 
-            EnemyCountDecrease();
             Invoke("DestroyThis", 0.8f);
             
 
@@ -113,10 +107,17 @@ public class enemyDie : MonoBehaviour
 
         if (player.GetComponent<PlayerDeath>().killAllEnemiesTrigger) //PlayerDeath클래스에서 killAllEnemies이면 전부 파괴
         {
-            EnemyCountDecrease();
             DestroyThis();
         
         }
         
+
+        
+
+    }
+    void OnDestroy() 
+    {
+        player.GetComponent<EnemySpawn>().enemyCount--;// EnemySpawn클래스의 적 카운트 줄이기
+
     }
 }

@@ -2,19 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 public class EnemyLinearMove : MonoBehaviour
 {
     public bool DoThisObjectLinearMove = false;
+    public bool startTrembleY = false;
     GameObject player;
+    Rigidbody2D rigid;
+    string trembleYPhase = "up"; // y축떨림에서 씀
+    float theta = 0; // y축떨림에서 씀
+    public float yTremblerate = 1.5f;
     int currentDestinationNum = 0; // 현재 목표 지점 번호
     public float speed;
     Vector3 currentDestination; // 현재 목표 지점
     public List<Vector3> destinations = new List<Vector3>();// 목표지점들 리스트
 
+
+
+
+    private void Start()
+    {
+        rigid = GetComponent<Rigidbody2D>();
+    }
+
     void FixedUpdate()
     {
-        if (DoThisObjectLinearMove) 
+        if (DoThisObjectLinearMove) //선형이동
         {
             currentDestination = destinations[currentDestinationNum];
             transform.position = Vector3.MoveTowards(transform.position, currentDestination, Time.deltaTime * speed);
@@ -32,6 +46,36 @@ public class EnemyLinearMove : MonoBehaviour
             }
 
         }
-        
+
+        if (startTrembleY) // y축 떨림
+        {
+            if (trembleYPhase == "up")
+            {
+                if (theta < Mathf.PI * 2)
+                {
+                    theta += Mathf.PI * 0.02f;
+                }
+                else
+                {
+                    trembleYPhase = "down";
+                }
+            }
+            else 
+            {
+                if (theta > 0)
+                {
+                    theta -= Mathf.PI * 0.02f;
+                }
+                else
+                {
+
+                    trembleYPhase = "up";
+                }
+
+            }
+
+            rigid.AddForce(transform.up * Mathf.Sin(theta)*yTremblerate, ForceMode2D.Force);
+        }
+
     }
 }

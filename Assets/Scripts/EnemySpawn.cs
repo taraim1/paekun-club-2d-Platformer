@@ -61,8 +61,10 @@ public class EnemySpawn : MonoBehaviour
                 linearTempDestinations.Add(new Vector3(97, 8.3f, 1.5f));
                 SetLinearMoveDestinations();
                 clone.GetComponent<EnemyLinearMove>().DoThisObjectLinearMove = true;
+                clone.GetComponent<EnemyLinearMove>().startTrembleY = true;
 
                 spawnEnemy("blueSlimeWithBallon", new Vector3(120, 6.5f, 1.5f));
+                clone.GetComponent<EnemyLinearMove>().startTrembleY = true;
 
                 spawnEnemy("blueSlimeWithBallon", new Vector3(128, 6.5f, 1.5f));
                 linearTempDestinations.Clear();
@@ -70,6 +72,7 @@ public class EnemySpawn : MonoBehaviour
                 linearTempDestinations.Add(new Vector3(135, 6.5f, 1.5f));
                 SetLinearMoveDestinations();
                 clone.GetComponent<EnemyLinearMove>().DoThisObjectLinearMove = true;
+                clone.GetComponent<EnemyLinearMove>().startTrembleY = true;
                 break;
 
         }
