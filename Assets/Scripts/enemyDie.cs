@@ -111,7 +111,7 @@ public class enemyDie : MonoBehaviour
 
         }
 
-        if (player.GetComponent<PlayerDeath>().killAllEnemiesTrigger && gameObject.tag == "Untagged") //PlayerDeath클래스에서 killAllEnemies이고 prefab이 아니면 전부 파괴
+        if (player.GetComponent<PlayerDeath>().killAllEnemiesTrigger) //PlayerDeath클래스에서 killAllEnemies이면 전부 파괴
         {
             EnemyCountDecrease();
             DestroyThis();
