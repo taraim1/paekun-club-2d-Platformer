@@ -8,6 +8,7 @@ TagManager:
   - EnemyPrefab
   - SavePoint
   - EnemySpawnTrigger
+  - EnemyClone
   layers:
   - Default
   - TransparentFX

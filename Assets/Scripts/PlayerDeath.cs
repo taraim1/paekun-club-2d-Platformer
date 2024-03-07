@@ -7,7 +7,18 @@ public class PlayerDeath : MonoBehaviour
     Rigidbody2D rigid;
     public GameObject player;
     public Vector3 respawnPoint = new Vector3(-10, 0, 0);
-    public bool killAllEnemiesTrigger = false;
+
+
+    void DestroyAllCloneEnemies()
+    {
+        GameObject[] clone = GameObject.FindGameObjectsWithTag("EnemyClone");
+
+        for (int i = 0; i < clone.Length; i++)
+        {
+            Destroy(clone[i]);
+        }
+    }
+
     void Start()
     {
         rigid = GetComponent<Rigidbody2D>();
@@ -16,7 +27,7 @@ public class PlayerDeath : MonoBehaviour
     // 충돌로 장애물 감지
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag == "obstacle") 
+        if (other.gameObject.tag == "obstacle")
         {
             for (int i = 0; i < player.GetComponent<EnemySpawn>().isEnemiesOfSpawnPointSpawned.Count; i++) //적 소환 확인 리스트 초기화
             {
@@ -27,15 +38,9 @@ public class PlayerDeath : MonoBehaviour
 
 
             transform.position = respawnPoint;
-            killAllEnemiesTrigger = true;
+            DestroyAllCloneEnemies();
         }
     }
 
-    private void Update()
-    {
-        if (player.GetComponent<EnemySpawn>().enemyCount == 0) 
-        {
-            killAllEnemiesTrigger = false;
-        }
-    }
-}
+
+}  

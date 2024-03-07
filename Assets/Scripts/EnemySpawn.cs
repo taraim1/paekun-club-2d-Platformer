@@ -8,7 +8,6 @@ using UnityEngine.UIElements;
 public class EnemySpawn : MonoBehaviour
 {
 
-    public int enemyCount = 0; // 이거 enemyDie에서 쓰고 있음
     public int currentSavePoint; // 이거 SavePoint에서 쓰고 있음
     public GameObject greenSlime_prefab;
     public GameObject BlueSlimeWithBallon_prefab;
@@ -32,8 +31,7 @@ public class EnemySpawn : MonoBehaviour
         }
 
         clone = Instantiate(enemy, pos, Quaternion.identity);
-        clone.tag = "Untagged";
-        enemyCount++;
+        clone.tag = "EnemyClone";
     }
 
     void SetLinearMoveDestinations() 
@@ -51,8 +49,8 @@ public class EnemySpawn : MonoBehaviour
         switch (triggerNum)
         {
             case 0:
-                spawnEnemy("greenSlime", new Vector3(45, 4, 1.5f));
-                spawnEnemy("greenSlime", new Vector3(54, 4, 1.5f));
+                spawnEnemy("greenSlime", new Vector3(45, 3f, 1.5f));
+                spawnEnemy("greenSlime", new Vector3(54, 3f, 1.5f));
                 break;
             case 1:
                 spawnEnemy("blueSlimeWithBallon", new Vector3(97, 8.3f, 1.5f));
@@ -73,6 +71,13 @@ public class EnemySpawn : MonoBehaviour
                 SetLinearMoveDestinations();
                 clone.GetComponent<EnemyLinearMove>().DoThisObjectLinearMove = true;
                 clone.GetComponent<EnemyLinearMove>().startTrembleY = true;
+
+                spawnEnemy("blueSlimeWithBallon", new Vector3(150, 6.5f, 1.5f));
+                spawnEnemy("blueSlimeWithBallon", new Vector3(157, 6.5f, 1.5f));
+                spawnEnemy("blueSlimeWithBallon", new Vector3(164, 6.5f, 1.5f));
+                spawnEnemy("blueSlimeWithBallon", new Vector3(171, 6.5f, 1.5f));
+                spawnEnemy("blueSlimeWithBallon", new Vector3(178, 6.5f, 1.5f));
+                spawnEnemy("blueSlimeWithBallon", new Vector3(185, 6.5f, 1.5f));
                 break;
 
         }
