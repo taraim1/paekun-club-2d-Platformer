@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerDeath : MonoBehaviour
 {
-    Rigidbody2D rigid;
+
     public GameObject player;
     public Vector3 respawnPoint = new Vector3(-10, 0, 0);
 
@@ -19,10 +19,6 @@ public class PlayerDeath : MonoBehaviour
         }
     }
 
-    void Start()
-    {
-        rigid = GetComponent<Rigidbody2D>();
-    }
 
     // 충돌로 장애물 감지
     void OnTriggerEnter2D(Collider2D other)
