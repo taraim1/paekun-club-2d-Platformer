@@ -71,7 +71,7 @@ public class enemyDie : MonoBehaviour
     {
         CheckIfDetected();
 
-        if (Input.GetMouseButtonDown(0) && isThisDetected == true) 
+        if (Input.GetMouseButtonDown(0) && isThisDetected == true && !player.GetComponent<PlayerDeath>().isDead) 
         {
             if (player.GetComponent<Transform>().position.x < transform.position.x) // 공격 돌진시 플레이어 스프라이트 방향 바꾸기
             {

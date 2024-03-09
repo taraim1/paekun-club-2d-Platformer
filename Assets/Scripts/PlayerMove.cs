@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
+    
     Rigidbody2D rigid;
     SpriteRenderer spriteRenderer;
     Animator animator;
@@ -28,14 +29,12 @@ public class PlayerMove : MonoBehaviour
     public AudioClip walkingSound6;
     public AudioClip walkingSound7;
 
-
-
     public AudioClip jumpingSound1;
     public AudioClip jumpingSound2;
     public AudioClip jumpingSound3;
     public AudioClip jumpingSound4;
 
-
+    public GameObject player;
 
 
     //함수
@@ -44,6 +43,12 @@ public class PlayerMove : MonoBehaviour
     {
         while (true) 
         {
+            if (player.GetComponent<PlayerDeath>().isDead) //죽으면 점프 안 됨
+            {
+                isCorrectedJumpReserved = false;
+                yield break;
+            }
+
             if (!animator.GetBool("isJumping") && isOnPlatform)
             {
                 rigid.velocity = new Vector2(rigid.velocity.x, 0);
@@ -91,7 +96,7 @@ public class PlayerMove : MonoBehaviour
 
     void ChangeSpriteHorizontalDirection() //좌우 이동에 따른 스프라이트 방향 전환
     {
-        if (!animator.GetBool("isAttacking"))
+        if (!animator.GetBool("isAttacking") && !player.GetComponent<PlayerDeath>().isDead)
         {
             switch (horizontal_force)
             {
@@ -158,7 +163,11 @@ public class PlayerMove : MonoBehaviour
     {
         //좌우 움직임
         horizontal_force = Input.GetAxisRaw("Horizontal");
-        rigid.AddForce(Vector2.right * horizontal_force * speed, ForceMode2D.Impulse);
+        if (!player.GetComponent<PlayerDeath>().isDead) 
+        {
+            rigid.AddForce(Vector2.right * horizontal_force * speed, ForceMode2D.Impulse);
+        }
+        
 
 
         //최대 좌우 속도 제한
@@ -198,7 +207,7 @@ public class PlayerMove : MonoBehaviour
 
 
         //뛰는 소리 재생
-        if (animator.GetBool("isWalking") && !audioSource.isPlaying && isOnPlatform)
+        if (horizontal_force !=0 && !audioSource.isPlaying && isOnPlatform && !player.GetComponent<PlayerDeath>().isDead)
         {
             PlayRandomWalkingSound();
         }
@@ -215,6 +224,10 @@ public class PlayerMove : MonoBehaviour
         if (isOnPlatform && horizontal_force == 0) // 미끄러지는거 없애기
         {
             rigid.velocity = new Vector2(0, rigid.velocity.y);
+        }
+        else if (player.GetComponent<PlayerDeath>().isDead)
+        {
+            rigid.velocity = new Vector2(0, rigid.velocity.y); // 죽었을 때 미끄러지는거 없애기
         }
     }
 }

@@ -6,7 +6,9 @@ public class PlayerDeath : MonoBehaviour
 {
 
     public GameObject player;
+    public bool isDead = false;
     public Vector3 respawnPoint = new Vector3(-10, 0, 0);
+    Animator animator;
 
 
     void DestroyAllCloneEnemies()
@@ -17,6 +19,18 @@ public class PlayerDeath : MonoBehaviour
         {
             Destroy(clone[i]);
         }
+    }
+
+    void Respawn() 
+    {
+        transform.position = respawnPoint;
+        isDead = false;
+        animator.SetBool("isDead", false);
+    }
+
+    void Start()
+    {
+           animator = GetComponent<Animator>(); 
     }
 
 
@@ -31,10 +45,11 @@ public class PlayerDeath : MonoBehaviour
 
             }
 
+            isDead = true;
+            animator.SetBool("isDead", true);
 
-
-            transform.position = respawnPoint;
-            DestroyAllCloneEnemies();
+            Invoke("Respawn", 1f);
+            Invoke("DestroyAllCloneEnemies", 1f);
         }
     }
 

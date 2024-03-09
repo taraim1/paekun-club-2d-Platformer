@@ -11,6 +11,7 @@ public class Attack : MonoBehaviour
     float currentAttackDuration = 0f;
     public GameObject cursor;
     public GameObject attackSoundPlayer;
+    public GameObject player;
     public int detectedEnemyId;
     int detectingRayNumber = 7;
     public bool AttackAnimationPlay = false; // 이거 EnemyDie에서 참조중
@@ -72,7 +73,7 @@ public class Attack : MonoBehaviour
 
     void ChangeCursor() //커서 이미지 변경
     {
-        if (detectedEnemiesIDs.Count == 0)
+        if (detectedEnemiesIDs.Count == 0 || player.GetComponent<PlayerDeath>().isDead)
         {
             cursor.GetComponent<pointerImageChange>().CursorNumber = 1;
         }
@@ -86,7 +87,7 @@ public class Attack : MonoBehaviour
 
     void DrawLineBetweenPlayerAndEnemy() //플레이어와 적 사이를 라인렌더러로 이어줌
     {
-        if (detectedEnemiesIDs.Count == 0)
+        if (detectedEnemiesIDs.Count == 0 || player.GetComponent<PlayerDeath>().isDead) // 죽거나 적을 타게팅하고 있지 않으면 꺼짐
         {
             lineRenderer.enabled = false;
         }
