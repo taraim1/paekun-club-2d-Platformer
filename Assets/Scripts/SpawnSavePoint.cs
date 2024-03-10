@@ -15,6 +15,7 @@ public class SpawnSavePoint : MonoBehaviour
 
     void Start()
     {
-        spawnSavePoint(1, new Vector3(72f, 3.6f, 1.5f));
+        spawnSavePoint(1, new Vector3(72f, 3.7f, 1.5f));
+        spawnSavePoint(2, new Vector3(188f, 3.7f, 1.5f));
     }
 }

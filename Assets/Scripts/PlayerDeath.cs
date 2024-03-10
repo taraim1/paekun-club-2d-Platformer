@@ -6,10 +6,11 @@ public class PlayerDeath : MonoBehaviour
 {
 
     public GameObject player;
+    public GameObject deathSoundPlayer;
     public bool isDead = false;
     public Vector3 respawnPoint = new Vector3(-10, 0, 0);
     Animator animator;
-
+    AudioSource audioSource_deathSoundPlayer;
 
     void DestroyAllCloneEnemies()
     {
@@ -31,6 +32,7 @@ public class PlayerDeath : MonoBehaviour
     void Start()
     {
            animator = GetComponent<Animator>(); 
+           audioSource_deathSoundPlayer = deathSoundPlayer.GetComponent<AudioSource>();
     }
 
 
@@ -48,8 +50,10 @@ public class PlayerDeath : MonoBehaviour
             isDead = true;
             animator.SetBool("isDead", true);
 
-            Invoke("Respawn", 1f);
-            Invoke("DestroyAllCloneEnemies", 1f);
+            audioSource_deathSoundPlayer.Play();
+
+            Invoke("Respawn", 1.2f);
+            Invoke("DestroyAllCloneEnemies", 1.2f);
         }
     }
 
