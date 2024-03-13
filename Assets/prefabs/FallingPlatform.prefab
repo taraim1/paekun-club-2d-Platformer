@@ -172,4 +172,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FallSpeed: 8.3
-  FallDelay: 0.3
+  FallDelay: 0.4

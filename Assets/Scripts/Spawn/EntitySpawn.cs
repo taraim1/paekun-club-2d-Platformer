@@ -89,7 +89,7 @@ public class EntitySpawn : MonoBehaviour
                 break;
             case 2:
                 spawnEntity("fallingPlatform", new Vector3(225, 10.7f, 1f));
-                spawnEntity("fallingPlatform", new Vector3(237.8f, 10.7f, 1f));
+                spawnEntity("fallingPlatform", new Vector3(236.5f, 10.7f, 1f));
                 break;
             case 3:
                 spawnEntity("fallingPlatform", new Vector3(267.5f, 0f, 1f));
