@@ -8,7 +8,7 @@ TagManager:
   - EnemyPrefab
   - SavePoint
   - EnemySpawnTrigger
-  - EnemyClone
+  - CloneEntity
   layers:
   - Default
   - TransparentFX

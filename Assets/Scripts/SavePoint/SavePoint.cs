@@ -30,8 +30,8 @@ public class SavePoint : MonoBehaviour
         {
             isActivated = true;
             animator.SetBool("isActivated", true);
-            player.GetComponent<EnemySpawn>().currentSavePoint = SavePointNum;
-            player.GetComponent<PlayerDeath>().respawnPoint = new Vector3(transform.position.x, transform.position.y, player.transform.position.z);
+            EntitySpawn.instance.currentSavePoint = SavePointNum;
+            PlayerDeath.instance.respawnPoint = new Vector3(transform.position.x, transform.position.y, player.transform.position.z);
             audioSource.Play();
         }
     }

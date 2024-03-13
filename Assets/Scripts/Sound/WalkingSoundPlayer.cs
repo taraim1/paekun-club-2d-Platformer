@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class WalkingSoundPlayer : MonoBehaviour
 {
+    public static WalkingSoundPlayer instance;
+
     public AudioClip walkingSound1;
     public AudioClip walkingSound2;
     public AudioClip walkingSound3;
@@ -20,4 +22,11 @@ public class WalkingSoundPlayer : MonoBehaviour
         audioSource.Play();
     }
 
+    private void Awake()
+    {
+        if (instance == null) //½Ì±ÛÅæ »ý¼º
+        {
+            instance = this;
+        }
+    }
 }

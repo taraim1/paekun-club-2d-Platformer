@@ -27,7 +27,6 @@ public class PlayerMove : MonoBehaviour
     public AudioClip jumpingSound4;
 
     public GameObject player;
-    public GameObject walkingSoundPlayer;
 
     //함수
 
@@ -35,7 +34,7 @@ public class PlayerMove : MonoBehaviour
     {
         while (true) 
         {
-            if (player.GetComponent<PlayerDeath>().isDead) //죽으면 점프 안 됨
+            if (PlayerDeath.instance.isDead) //죽으면 점프 안 됨
             {
                 isCorrectedJumpReserved = false;
                 yield break;
@@ -81,7 +80,7 @@ public class PlayerMove : MonoBehaviour
 
     void ChangeSpriteHorizontalDirection() //좌우 이동에 따른 스프라이트 방향 전환
     {
-        if (!animator.GetBool("isAttacking") && !player.GetComponent<PlayerDeath>().isDead)
+        if (!animator.GetBool("isAttacking") && !PlayerDeath.instance.isDead)
         {
             switch (horizontal_force)
             {
@@ -148,7 +147,7 @@ public class PlayerMove : MonoBehaviour
     {
         //좌우 움직임
         horizontal_force = Input.GetAxisRaw("Horizontal");
-        if (!player.GetComponent<PlayerDeath>().isDead) 
+        if (!PlayerDeath.instance.isDead) 
         {
             rigid.AddForce(Vector2.right * horizontal_force * speed, ForceMode2D.Impulse);
         }
@@ -192,9 +191,9 @@ public class PlayerMove : MonoBehaviour
 
 
         //뛰는 소리 재생
-        if (horizontal_force != 0 && !walkingSoundPlayer.GetComponent<WalkingSoundPlayer>().audioSource.isPlaying && isOnPlatform && !player.GetComponent<PlayerDeath>().isDead)
+        if (horizontal_force != 0 && !WalkingSoundPlayer.instance.audioSource.isPlaying && isOnPlatform && !PlayerDeath.instance.isDead)
         {
-            walkingSoundPlayer.GetComponent<WalkingSoundPlayer>().PlayRandomWalkingSound();
+            WalkingSoundPlayer.instance.PlayRandomWalkingSound();
         }
 
 
@@ -210,7 +209,7 @@ public class PlayerMove : MonoBehaviour
         {
             rigid.velocity = new Vector2(0, rigid.velocity.y);
         }
-        else if (player.GetComponent<PlayerDeath>().isDead)
+        else if (PlayerDeath.instance.isDead)
         {
             rigid.velocity = new Vector2(0, rigid.velocity.y); // 죽었을 때 미끄러지는거 없애기
         }
