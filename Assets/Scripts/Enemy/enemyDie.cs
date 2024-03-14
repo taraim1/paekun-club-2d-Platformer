@@ -96,6 +96,8 @@ public class enemyDie : MonoBehaviour
             player.GetComponent<Attack>().AttackSoundPlay = true;  
             StartCoroutine(FadeOutLinerenderer());
 
+
+
             gameObject.layer = 9; // 플레이어와 충돌 안 하는 레이어로 바꾸기
             
 

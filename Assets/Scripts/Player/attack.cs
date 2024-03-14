@@ -8,6 +8,7 @@ public class Attack : MonoBehaviour
     public float detectLength;
     public float enemyDetectionCorrection;
     public float AttackDuration;
+    public float floatingTime;
     float currentAttackDuration = 0f;
     public GameObject cursor;
     public GameObject attackSoundPlayer;
@@ -141,6 +142,22 @@ public class Attack : MonoBehaviour
         }
 
     }
+    void SetGravityScale(float scale) 
+    {
+        rigid.gravityScale = scale;
+    
+    }
+
+    IEnumerator AttackFallingCorrection() // 공격 이후 잠시 떠있게 하는 코루틴
+    {
+
+        SetGravityScale(0.2f);
+        yield return new WaitForSeconds(floatingTime);
+        SetGravityScale(6);
+        yield break;
+    
+    
+    }
 
     void Start()
     {
@@ -185,6 +202,7 @@ public class Attack : MonoBehaviour
 
         if (AttackAnimationPlay) // AttackAnimationPlay이면 currentAttackDuration 갱신, 공격 애니메이션 켜짐
         {
+            StartCoroutine("AttackFallingCorrection"); // 공격시 잠시 천천히 떨어짐
             currentAttackDuration = AttackDuration;
             animator.SetBool("isAttacking", true);
             animator.SetBool("AttackAniPlay", true);
