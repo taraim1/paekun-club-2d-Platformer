@@ -18,7 +18,7 @@ public class EntitySpawn : MonoBehaviour
     public GameObject FallingPlatform_prefab;
 
     public List<bool> isEntitiesOfSpawnPointSpawned = new List<bool>(); //소환 확인 리스트, PlayerDeath에서도 참조중
-    int EnemySpawnTriggerNum;
+    int SpawnTriggerNum;
     public List<Vector3> linearTempDestinations = new List<Vector3>();
     GameObject clone;
 
@@ -123,14 +123,11 @@ public class EntitySpawn : MonoBehaviour
         if (other.tag == "EnemySpawnTrigger")
         {
 
-            //EnemySpawnTrigger들 이름에서 숫자 뺴내는 작업
-            //EnemySpawnTrigger 태그 오브젝트 이름은 EnemySpawnTrigger (숫자) 형태여야함
-            string TriggerName = other.gameObject.name;
-            TriggerName = TriggerName.Substring(19, TriggerName.Length - 20);
-            EnemySpawnTriggerNum = int.Parse(TriggerName);
-            if (isEntitiesOfSpawnPointSpawned[EnemySpawnTriggerNum] == false)
+
+            SpawnTriggerNum = int.Parse(other.gameObject.name);
+            if (isEntitiesOfSpawnPointSpawned[SpawnTriggerNum] == false)
             {
-                spawnEntityRegardingTriggerNum(EnemySpawnTriggerNum);
+                spawnEntityRegardingTriggerNum(SpawnTriggerNum);
             }
         }
 
