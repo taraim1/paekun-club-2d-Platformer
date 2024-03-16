@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7959419778935344872}
   - component: {fileID: 8914486400098130893}
   - component: {fileID: 2450249249399852435}
+  - component: {fileID: 921050260472572850}
   m_Layer: 6
   m_Name: FallingPlatform
   m_TagString: Untagged
@@ -173,3 +174,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FallSpeed: 8.3
   FallDelay: 0.4
+--- !u!114 &921050260472572850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1546441927003238002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95e611b9048fe494398749b5793f4f09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DoThisObjectLinearMove: 0
+  startTrembleY: 0
+  yTremblerate: 0
+  speed: 3
+  destinations: []

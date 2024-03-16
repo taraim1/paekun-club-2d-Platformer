@@ -9,6 +9,8 @@ public class EntitySpawn : MonoBehaviour
 {
     public static EntitySpawn instance;
 
+    public float EnemyZ;
+    public float PlatformZ;
     public int currentSavePoint; // 이거 SavePoint에서 쓰고 있음
 
     public GameObject greenSlime_prefab;
@@ -46,7 +48,7 @@ public class EntitySpawn : MonoBehaviour
     {
         for (int i = 0; i < linearTempDestinations.Count; i++)//얕은복사 (무식하게) 해결
         {
-            clone.GetComponent<EnemyLinearMove>().destinations.Add(linearTempDestinations[i]);   
+            clone.GetComponent<EntityLinearMove>().destinations.Add(linearTempDestinations[i]);   
         }
 
 
@@ -57,45 +59,58 @@ public class EntitySpawn : MonoBehaviour
         switch (triggerNum)
         {
             case 0:
-                spawnEntity("greenSlime", new Vector3(45, 3f, 1.5f));
-                spawnEntity("greenSlime", new Vector3(54, 3f, 1.5f));
+                spawnEntity("greenSlime", new Vector3(45, 3f, EnemyZ));
+                spawnEntity("greenSlime", new Vector3(54, 3f, EnemyZ));
                 break;
             case 1:
-                spawnEntity("blueSlimeWithBallon", new Vector3(97, 8.3f, 1.5f));
+                spawnEntity("blueSlimeWithBallon", new Vector3(97, 8.3f, EnemyZ));
                 linearTempDestinations.Clear();
-                linearTempDestinations.Add(new Vector3(85, 8.3f, 1.5f));
-                linearTempDestinations.Add(new Vector3(97, 8.3f, 1.5f));
+                linearTempDestinations.Add(new Vector3(85, 8.3f, EnemyZ));
+                linearTempDestinations.Add(new Vector3(97, 8.3f, EnemyZ));
                 SetLinearMoveDestinations();
-                clone.GetComponent<EnemyLinearMove>().DoThisObjectLinearMove = true;
-                clone.GetComponent<EnemyLinearMove>().startTrembleY = true;
+                clone.GetComponent<EntityLinearMove>().DoThisObjectLinearMove = true;
+                clone.GetComponent<EntityLinearMove>().startTrembleY = true;
 
-                spawnEntity("blueSlimeWithBallon", new Vector3(120, 6.5f, 1.5f));
-                clone.GetComponent<EnemyLinearMove>().startTrembleY = true;
+                spawnEntity("blueSlimeWithBallon", new Vector3(120, 6.5f, EnemyZ));
+                clone.GetComponent<EntityLinearMove>().startTrembleY = true;
 
-                spawnEntity("blueSlimeWithBallon", new Vector3(128, 6.5f, 1.5f));
+                spawnEntity("blueSlimeWithBallon", new Vector3(128, 6.5f, EnemyZ));
                 linearTempDestinations.Clear();
-                linearTempDestinations.Add(new Vector3(128, 6.5f, 1.5f));
-                linearTempDestinations.Add(new Vector3(135, 6.5f, 1.5f));
+                linearTempDestinations.Add(new Vector3(128, 6.5f, EnemyZ));
+                linearTempDestinations.Add(new Vector3(135, 6.5f, EnemyZ));
                 SetLinearMoveDestinations();
-                clone.GetComponent<EnemyLinearMove>().DoThisObjectLinearMove = true;
-                clone.GetComponent<EnemyLinearMove>().startTrembleY = true;
+                clone.GetComponent<EntityLinearMove>().DoThisObjectLinearMove = true;
+                clone.GetComponent<EntityLinearMove>().startTrembleY = true;
 
-                spawnEntity("blueSlimeWithBallon", new Vector3(150, 6.5f, 1.5f));
-                spawnEntity("blueSlimeWithBallon", new Vector3(157, 6.5f, 1.5f));
-                spawnEntity("blueSlimeWithBallon", new Vector3(164, 6.5f, 1.5f));
-                spawnEntity("blueSlimeWithBallon", new Vector3(171, 6.5f, 1.5f));
-                spawnEntity("blueSlimeWithBallon", new Vector3(178, 6.5f, 1.5f));
-                spawnEntity("blueSlimeWithBallon", new Vector3(185, 6.5f, 1.5f));
+                spawnEntity("blueSlimeWithBallon", new Vector3(150, 6.5f, EnemyZ));
+                spawnEntity("blueSlimeWithBallon", new Vector3(157, 6.5f, EnemyZ));
+                spawnEntity("blueSlimeWithBallon", new Vector3(164, 6.5f, EnemyZ));
+                spawnEntity("blueSlimeWithBallon", new Vector3(171, 6.5f, EnemyZ));
+                spawnEntity("blueSlimeWithBallon", new Vector3(178, 6.5f, EnemyZ));
+                spawnEntity("blueSlimeWithBallon", new Vector3(185, 6.5f, EnemyZ));
                 break;
             case 2:
-                spawnEntity("fallingPlatform", new Vector3(225, 10.7f, 1f));
-                spawnEntity("fallingPlatform", new Vector3(236.5f, 10.7f, 1f));
+                spawnEntity("fallingPlatform", new Vector3(225, 10.7f, PlatformZ));
+                spawnEntity("fallingPlatform", new Vector3(236.5f, 10.7f, PlatformZ));
                 break;
             case 3:
-                spawnEntity("fallingPlatform", new Vector3(267.5f, 0f, 1f));
+                spawnEntity("fallingPlatform", new Vector3(267.5f, 0f, PlatformZ));
                 clone.transform.localScale = new Vector3(2f, 6f, 1f);
-                spawnEntity("greenSlime", new Vector3(280, -4.5f, 1.5f));
-                spawnEntity("greenSlime", new Vector3(273, -11.5f, 1.5f));
+                clone.GetComponent<FallingPlatform>().FallSpeed = 6.6f;
+                spawnEntity("greenSlime", new Vector3(280, -4.5f, EnemyZ));
+                spawnEntity("greenSlime", new Vector3(273, -11.5f, EnemyZ));
+                break;
+            case 4:
+                spawnEntity("fallingPlatform", new Vector3(232f, -18f, PlatformZ));
+                clone.transform.localScale = new Vector3(3f, 4f, 1f);
+                linearTempDestinations.Clear();
+                linearTempDestinations.Add(new Vector3(232f, -18f, EnemyZ));
+                linearTempDestinations.Add(new Vector3(222f, -18f, EnemyZ));
+                SetLinearMoveDestinations();
+                clone.GetComponent<EntityLinearMove>().DoThisObjectLinearMove = true;
+                clone.GetComponent<EntityLinearMove>().isThisFallingPlatform = true;
+                clone.GetComponent<EntityLinearMove>().speed = 7.2f;
+                clone.GetComponent<FallingPlatform>().FallSpeed = 4.5f;
                 break;
         }
         isEntitiesOfSpawnPointSpawned[triggerNum] = true;
