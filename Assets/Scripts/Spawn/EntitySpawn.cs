@@ -18,13 +18,14 @@ public class EntitySpawn : MonoBehaviour
     public GameObject BlueSlimeWithBallon_prefab;
     public GameObject FallingPlatform_prefab;
     public GameObject SkillGemRed_prefab;
+    public GameObject GemSpark_prefab;
 
     public List<bool> isEntitiesOfSpawnPointSpawned = new List<bool>(); //소환 확인 리스트, PlayerDeath에서도 참조중
     int SpawnTriggerNum;
     public List<Vector3> linearTempDestinations = new List<Vector3>();
     GameObject clone;
 
-    void spawnEntity(string type, Vector3 pos) //개체 스폰 함수, type의 개체를 pos 위치에 소환
+    public void spawnEntity(string type, Vector3 pos) //개체 스폰 함수, type의 개체를 pos 위치에 소환
     {
         GameObject entity = greenSlime_prefab;
         switch (type) // 소환할 개체 설정
@@ -40,6 +41,9 @@ public class EntitySpawn : MonoBehaviour
                 break;
             case "skillGemRed":
                 entity = SkillGemRed_prefab;
+                break;
+            case "gemSpark":
+                entity = GemSpark_prefab;
                 break;
 
         }

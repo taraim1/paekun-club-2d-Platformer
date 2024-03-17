@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 6369757387669808983}
   - component: {fileID: 8483746316476660941}
   - component: {fileID: 137535410535452879}
+  - component: {fileID: -4679643164834850798}
   m_Layer: 0
   m_Name: SkillGemRed
   m_TagString: Untagged
@@ -31,7 +32,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 262.5, y: -30, z: 2}
-  m_LocalScale: {x: 3, y: 3, z: 1}
+  m_LocalScale: {x: 4, y: 4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -163,3 +164,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startYUpAndDown: 1
   Range: 0.02
+--- !u!114 &-4679643164834850798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2560862050230993209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 738026457d23fcc44bd75c3835fbab11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
