@@ -9,6 +9,7 @@ TagManager:
   - SavePoint
   - EnemySpawnTrigger
   - CloneEntity
+  - CutSceneTrigger
   layers:
   - Default
   - TransparentFX

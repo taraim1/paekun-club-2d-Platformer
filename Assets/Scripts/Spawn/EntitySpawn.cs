@@ -19,6 +19,7 @@ public class EntitySpawn : MonoBehaviour
     public GameObject FallingPlatform_prefab;
     public GameObject SkillGemRed_prefab;
     public GameObject GemSpark_prefab;
+    public GameObject PressE_prefab;
 
     public List<bool> isEntitiesOfSpawnPointSpawned = new List<bool>(); //소환 확인 리스트, PlayerDeath에서도 참조중
     int SpawnTriggerNum;
@@ -44,6 +45,9 @@ public class EntitySpawn : MonoBehaviour
                 break;
             case "gemSpark":
                 entity = GemSpark_prefab;
+                break;
+            case "pressE":
+                entity = PressE_prefab;
                 break;
 
         }
