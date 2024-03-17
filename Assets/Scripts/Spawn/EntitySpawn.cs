@@ -11,11 +11,13 @@ public class EntitySpawn : MonoBehaviour
 
     public float EnemyZ;
     public float PlatformZ;
+    public float BackgroundZ;
     public int currentSavePoint; // 이거 SavePoint에서 쓰고 있음
 
     public GameObject greenSlime_prefab;
     public GameObject BlueSlimeWithBallon_prefab;
     public GameObject FallingPlatform_prefab;
+    public GameObject SkillGemRed_prefab;
 
     public List<bool> isEntitiesOfSpawnPointSpawned = new List<bool>(); //소환 확인 리스트, PlayerDeath에서도 참조중
     int SpawnTriggerNum;
@@ -35,6 +37,9 @@ public class EntitySpawn : MonoBehaviour
                 break;
             case "fallingPlatform":
                 entity = FallingPlatform_prefab;
+                break;
+            case "skillGemRed":
+                entity = SkillGemRed_prefab;
                 break;
 
         }
@@ -69,10 +74,8 @@ public class EntitySpawn : MonoBehaviour
                 linearTempDestinations.Add(new Vector3(97, 8.3f, EnemyZ));
                 SetLinearMoveDestinations();
                 clone.GetComponent<EntityLinearMove>().DoThisObjectLinearMove = true;
-                clone.GetComponent<EntityLinearMove>().startTrembleY = true;
 
                 spawnEntity("blueSlimeWithBallon", new Vector3(120, 6.5f, EnemyZ));
-                clone.GetComponent<EntityLinearMove>().startTrembleY = true;
 
                 spawnEntity("blueSlimeWithBallon", new Vector3(128, 6.5f, EnemyZ));
                 linearTempDestinations.Clear();
@@ -80,7 +83,6 @@ public class EntitySpawn : MonoBehaviour
                 linearTempDestinations.Add(new Vector3(135, 6.5f, EnemyZ));
                 SetLinearMoveDestinations();
                 clone.GetComponent<EntityLinearMove>().DoThisObjectLinearMove = true;
-                clone.GetComponent<EntityLinearMove>().startTrembleY = true;
 
                 spawnEntity("blueSlimeWithBallon", new Vector3(150, 6.5f, EnemyZ));
                 spawnEntity("blueSlimeWithBallon", new Vector3(157, 6.5f, EnemyZ));
@@ -111,6 +113,9 @@ public class EntitySpawn : MonoBehaviour
                 clone.GetComponent<EntityLinearMove>().isThisFallingPlatform = true;
                 clone.GetComponent<EntityLinearMove>().speed = 7.2f;
                 clone.GetComponent<FallingPlatform>().FallSpeed = 4.5f;
+                break;
+            case 5:
+                spawnEntity("skillGemRed", new Vector3(262.5f, -30f, BackgroundZ));
                 break;
         }
         isEntitiesOfSpawnPointSpawned[triggerNum] = true;
