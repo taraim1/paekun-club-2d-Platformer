@@ -5,8 +5,11 @@ using UnityEngine;
 
 public class CutSceneController : MonoBehaviour
 {
+    
+    public static CutSceneController instance;
+
     int cutSceneTriggerNum;
-    bool isInCutScene = false;
+    public bool isInCutScene = false;
     bool isInCutSceneTrigger = false;
     GameObject currentCutSceneTrigger;
 
@@ -36,6 +39,12 @@ public class CutSceneController : MonoBehaviour
 
     }
 
+    public void CutSceneOff() 
+    {
+        isInCutScene = false;
+        gameObject.GetComponent<PlayerMove>().enabled = true;
+    }
+
     void OnTriggerExit2D(Collider2D other)
     {
         if (other.tag == "CutSceneTrigger") //ÄÆ¾ÀÆ®¸®°Å ³ª°¡´Â °Å °¨Áö
@@ -53,6 +62,13 @@ public class CutSceneController : MonoBehaviour
 
     }
 
+    private void Awake()
+    {
+        if (instance == null) //½Ì±ÛÅæ »ý¼º
+        {
+            instance = this;
+        }
+    }
 
     void Update()
     {
@@ -66,6 +82,8 @@ public class CutSceneController : MonoBehaviour
                         currentCutSceneTrigger.SetActive(false);
                         DestroyPressE();
                         isInCutScene = true;
+                        TimeLineDirector.instance.PlayCurrentTimeLine();
+                        gameObject.GetComponent<PlayerMove>().enabled = false;
                     }
                     break;
 

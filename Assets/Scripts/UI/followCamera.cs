@@ -6,6 +6,7 @@ public class followCamera : MonoBehaviour
 {
 
     public GameObject cam;
+    public GameObject SceneCam;
     void Start()
     {
         
@@ -14,6 +15,13 @@ public class followCamera : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
-        transform.position = new Vector3(cam.transform.position.x, cam.transform.position.y, transform.position.z);
+        if (!CutSceneController.instance.isInCutScene)
+        {
+            transform.position = new Vector3(cam.transform.position.x, cam.transform.position.y, transform.position.z);
+        }
+        else 
+        {
+            transform.position = new Vector3(SceneCam.transform.position.x, SceneCam.transform.position.y, transform.position.z);
+        }
     }
 }

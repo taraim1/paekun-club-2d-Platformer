@@ -49,7 +49,8 @@ public class CameraControler : MonoBehaviour
 
     private void FixedUpdate()
     {
+
         cam.transform.position = Vector3.Lerp(cam.transform.position, new Vector3(transform.position.x, transform.position.y, -10), Time.deltaTime * camSpeed);
-        
+     
     }
 }

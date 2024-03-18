@@ -17,7 +17,7 @@ public class EntitySpawn : MonoBehaviour
     public GameObject greenSlime_prefab;
     public GameObject BlueSlimeWithBallon_prefab;
     public GameObject FallingPlatform_prefab;
-    public GameObject SkillGemRed_prefab;
+    public GameObject GemRed_prefab;
     public GameObject GemSpark_prefab;
     public GameObject PressE_prefab;
 
@@ -40,8 +40,8 @@ public class EntitySpawn : MonoBehaviour
             case "fallingPlatform":
                 entity = FallingPlatform_prefab;
                 break;
-            case "skillGemRed":
-                entity = SkillGemRed_prefab;
+            case "gemRed":
+                entity = GemRed_prefab;
                 break;
             case "gemSpark":
                 entity = GemSpark_prefab;
@@ -123,7 +123,7 @@ public class EntitySpawn : MonoBehaviour
                 clone.GetComponent<FallingPlatform>().FallSpeed = 4.5f;
                 break;
             case 5:
-                spawnEntity("skillGemRed", new Vector3(262.5f, -30f, BackgroundZ));
+                spawnEntity("gemRed", new Vector3(262.5f, -30f, BackgroundZ));
                 break;
         }
         isEntitiesOfSpawnPointSpawned[triggerNum] = true;
