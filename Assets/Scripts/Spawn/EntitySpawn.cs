@@ -122,9 +122,6 @@ public class EntitySpawn : MonoBehaviour
                 clone.GetComponent<EntityLinearMove>().speed = 7.2f;
                 clone.GetComponent<FallingPlatform>().FallSpeed = 4.5f;
                 break;
-            case 5:
-                spawnEntity("gemRed", new Vector3(262.5f, -30f, BackgroundZ));
-                break;
         }
         isEntitiesOfSpawnPointSpawned[triggerNum] = true;
 
