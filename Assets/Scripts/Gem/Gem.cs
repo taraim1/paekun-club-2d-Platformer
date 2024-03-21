@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Gem : MonoBehaviour
 {
-
+    public GameObject explosionEffect;
     IEnumerator SummonSpark() 
     {
         Vector3 sparkPos;
@@ -17,6 +17,16 @@ public class Gem : MonoBehaviour
         }
     
     }
+
+    public void DestroyGem() //º¸¼® ÆÄ±«
+    {
+        explosionEffect.SetActive(true);
+        explosionEffect.transform.position = transform.position;
+        gameObject.SetActive(false);
+
+    
+    }
+
     void Start()
     {
         StartCoroutine("SummonSpark");
